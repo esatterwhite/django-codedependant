@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <ul>
+  {% for obj in object_list %}
+    <li><a href="{% url codedependant.publisher.views.edit_item ct_id=obj.get_ct, obj_id=obj.pk, slug=obj.slug  %}">{{ obj.title }}</a></li>
+    {% empty %}
+    <li>Nothing</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

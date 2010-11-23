@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block formmedia %}
+  {{ form.media }}
+{% endblock %}
+{% block content %}
+<form action="" method="post" id="editForm" enctype="multipart/form-data">
+  <ul>
+  {{ form.as_ul }}
+  </ul>
+ </form>
+{% endblock %}

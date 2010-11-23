@@ -1,6 +1,6 @@
 
 (function(window, undefined){
-	var_cdependant = window.cDependant ||{};
+	var _cdependant = window.cDependant || {};
 	_cdependant.Forms = {};
 	
 	/**

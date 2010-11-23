@@ -1,5 +1,112 @@
 <!DOCTYPE HTML>
 <html>
-  <head></head>
-  <body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />  
+    <meta name="author" content="Eric Satterwhite" />  
+    
+    <title>{% block title %}Codedependant{% endblock %}</title>
+    <link href="{{ MEDIA_URL }}css/reset.css" rel="stylesheet" type="text/css">
+    <link href="{{ MEDIA_URL }}css/grid.css" rel="stylesheet" type="text/css">
+    <link href="{{ MEDIA_URL }}css/codedependant.css" rel="stylesheet" type="text/css">
+    {% block stylesheets %}{% endblock %}
+    
+    <!--[if IE]>
+    <style type="text/css"> 
+    #content-pannel { zoom: 1;}
+    #site-container{zoom:1;}
+    #cage, #header{zoom:1;}
+    #tabpannel li a:hover, #tabpannel li a.on { padding:4px 20px;}
+    section{display:block}
+    </style>
+    <![endif]-->
+    
+    <script src="{{ MEDIA_URL }}js/mootools-1.3.js"></script>
+    <script src="{{ MEDIA_URL }}js/mootools-more.js"></script>
+    
+    {% block javascripts %}{% endblock %}
+    {% block formmedia %}{% endblock %}
+  </head>
+<body class="">
+<div id="container" class="container_16">
+  <div id="header">
+    <div id="logo" class="grid_5 alpha"> <img src="{{ MEDIA_URL }}images/gamepicker_logo.png" width="184" height="37" alt=""></div>
+    <header id="topnav" style="" class="grid_11 omega push_1">
+      <ul>
+        <li><a href="index.html" class="on">home</a></li>
+        <li><a href="articles.html">articles</a></li>
+        <li><a href="reviews.html">reviews</a></li>
+        <li><a href="previews.html">previews</a></li>
+        <li><a href="codescheats.html">cheats</a></li>
+        <li><a href="downloads.html">downloads</a></li>
+        <li><a href="#">login</a></li>
+        <li><a href="#">register</a></li>
+      </ul>
+    </header>
+    <br class="clearfloat" />
+  </div>
+  <div class="bg-med border-light p_all-6" id="site-container">
+    {% block content %}
+
+    {% endblock %}
+  </div>
+</div>
+<div id="footer-wrap" class="bg-dark">
+  <div id="top-bar">
+    <ul>
+      <li><a href="./" class="on">Home</a></li>
+      <li><a href="articles.html">Articles</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="previews.html">Previews</a></li>
+      <li><a href="codescheats.html">Cheats</a></li>
+      <li><a href="downloads.html">Downloads</a></li>
+    </ul>
+    <br class="clearfloat">
+  </div>
+  <div class="pos-rel" id="footer-bg">
+    <section class="fl width33 p_all-6 ml-8"> <img src="../css/img/RSS_16.png" alt="" width="16" height="16" class="fr ml-4">
+      <h4>Site Updates</h4>
+      <ul>
+        <li class="user-block">
+          <p><a href="#">KissR</a> just updated their profile</p>
+        </li>
+        <li class="article-block">
+          <p>gamepicker added a new article <a href="#" class="xbox">Fable II: Return of the Hero</a></p>
+        </li>
+        <li class="gallery-block">
+          <p><a href="#">Artsy</a> created a new <a href="#">photo gallery</a> for <a href="#" class="gq">Resident Evil</a></p>
+        </li>
+        <li class="comment-block">
+          <p><a href="#">Janet</a> commented on a Review of <a href="#">Shodow of the Colossus</a></p>
+        </li>
+      </ul>
+    </section>
+    <section class="fl width30 p_all-6 ml-4"> <img src="../css/img/RSS_16.png" alt="" width="16" height="16" class="fr ml-4">
+      <h4>Game Job Postings</h4>
+      <ul>
+        <li>Level Designer - Naughty Dog, Inc. (<a>Austin, Tx</a>)</li>
+        <li>Game Developer - Bethesda Games (<a>Los Angles, CA</a>)</li>
+        <li>Public Relations - EA Games (<a>Sacremento, CA</a>)</li>
+        <li>Web Developer - Konami, Inc, (<a>Hokiado, JAP</a>)</li>
+      </ul>
+    </section>
+    <section class="fl width30 p_all-6 ml-4"></section>
+  </div>
+  <div class="bg-light bt-light" id="bottom-bar">
+    <div class="fr">
+      <ul>
+        <li>Pickmedia Network:</li>
+        <li><a>gamepicker.com</a></li>
+        <li><a>compupterpicker.com</a></li>
+        <li><a>consolepicker.com</a></li>
+        <li><a>carpicker.com</a></li>
+      </ul>
+    </div>
+    <img src="{{ MEDIA_URL }}images/logo_sm.png" width="123" height="20" alt="logo"> </div>
+</div> 
+<script src="{{ MEDIA_URL }}js/codedependant.js"></script> 
+<script src="{{ MEDIA_URL }}js/codedependant.forms.js"></script>
+{% block extrascripts %}{% endblock %}
+</body>
 </html>

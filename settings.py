@@ -10,7 +10,7 @@ if DEVLOPMENT_MODE:
 
     DEBUG = True
     TEMPLATE_DEBUG = True
-    TEMPLATE_STRING_IF_INVALID = 'INVALID VARIABLE'
+    TEMPLATE_STRING_IF_INVALID = ''
     CACHE_BACKEND = 'locmem:///'
     SESSION_EXPIRE_AT_BROWSER_CLOSE = False
     
@@ -26,7 +26,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
+APPEND_SLASH = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -75,7 +75,7 @@ MEDIA_ROOT = PROJECT_ROOT + '/media/'
 MEDIA_URL = 'http://127.0.0.1:8000/static_media/'
 STATIC_DOC_ROOT = 'media/'
 ADMIN_MEDIA_PREFIX = '/media/'
-
+SESSION_ENGINE = 'sessions.backends.pyredis'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-2*z^98odz6vl%g2n_z)@9)9=1k&9b$wk-qnhuj2-o*%jlc5hu'
 
@@ -83,7 +83,7 @@ SECRET_KEY = '-2*z^98odz6vl%g2n_z)@9)9=1k&9b$wk-qnhuj2-o*%jlc5hu'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,7 +101,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'codedependant.urls'
-
+INTERNAL_IPS = ('127.0.0.1',)
 TEMPLATE_DIRS = (
     PROJECT_ROOT +'/templates/'
 )
@@ -110,10 +110,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
-    'hitmen.context_processors.teammate',    
+#    'hitmen.context_processors.teammate',    
 )
 INSTALLED_APPS = (
-    'grappelli',
+#    'grappelli',
+    'debug_toolbar',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -123,12 +124,17 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.flatpages',    
     'django.contrib.sitemaps',  
+    'codedependant.core',
+    'codedependant.publisher',
     'django_extensions',
     'registration',
     'maintenancemode',
     'djapian',
     'pagination',
-    'sorl',
+    'sorl.thumbnail',
     'photologue',
+    'south',
+    'queryset_transform',
+    'hotsauce',
     
 )
