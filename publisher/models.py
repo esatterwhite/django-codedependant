@@ -1,8 +1,8 @@
+from core.models import SiteContentItem
 from django.db import models
 from django.db.models import permalink
-from publisher.managers import LiveArticleManager, CurrentArticleManager, ArchivedArticleManager
-from core.models import SiteContentItem
 from django.utils.translation import ugettext_lazy as _
+from publisher.managers import LiveArticleManager, CurrentArticleManager, ArchivedArticleManager
 STORY_CHOICES = (
     (1, "Needs Edit"),
     (2, "Needs Images"),
@@ -13,6 +13,10 @@ STORY_CHOICES = (
     (7, "OUTDATED"),
     (8, "DENIED"),
 )
+MODERATION_OPTIONS = (
+    ('approval', 'Approve'),
+    ('denial', 'Deny')
+) 
 class Article(SiteContentItem):
     
 
@@ -25,7 +29,7 @@ class Article(SiteContentItem):
     
     summary =       models.CharField(_('Summary'),
                                      max_length = 255, blank=True, 
-                                     null=False, help_text=_(""))
+                                     null=False, help_text=_("no text"))
     initial_publish = models.BooleanField(editable=False)
     
     admin_objects = models.Manager()
@@ -42,7 +46,7 @@ class Article(SiteContentItem):
     
     @permalink
     def get_absolute_url(self):
-        return ('publisher.views.content_detail', (), {
+        return ('codedependant.publisher.views.content_detail', (), {
                                                        "ct_id":self.get_ct(),
                                                        "obj_id":self.pk,
                                                        'slug':self.slug

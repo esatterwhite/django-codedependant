@@ -12,8 +12,9 @@ class MooEditor(forms.Textarea):
         return rendered + ('''<script>
                                     window.addEvent('domready', function(){
                                        editor =  $('id_%s').mooEditable({
-                            externalCSS:'%scss/MooEditable.css',
-                            actions: 'bold italic | insertunorderedlist indent outdent | undo redo refresh-view | unlink | urlimage | toggleview'
+                            externalCSS:'%scss/editor.css',
+                            paragraphise:false,
+                            actions: 'h2 h4 p | bold italic | insertunorderedlist indent outdent | undo redo refresh-view | createlink unlink | urlimage | insertcode toggleview'
                           })
                                     });
                             </script> ''') % (name, settings.MEDIA_URL)

@@ -1,0 +1,105 @@
+Object.append(MooEditable.Actions, {
+  p:{
+    title: 'Paragraph',
+    states: {
+      tags: ['p']
+    },
+    command: function(name){
+      var argument = '<' + 'p' + '>';
+      this.execute('formatBlock', false, argument);
+    }   
+  },
+  h4: {
+    title: 'Heading',
+    states: {
+      tags: ['h4']
+    },
+    command: function(name){
+      var argument = '<' + 'h4' + '>';
+      this.execute('formatBlock', false, argument);
+    }
+  },
+  
+  h2: {
+    title: 'Heading',
+    states: {
+      tags: ['h2']
+    },
+    command: function(name){
+      var argument = '<' + 'h2' + '>';
+      this.execute('formatBlock', false, argument);
+    }
+  },
+  
+  insertcode:{
+    title:"Insert Code",
+    type:"button",
+    options:{
+      mode:'icon',
+      shotcut:'q'
+    },
+    states:{
+      tags:['pre']
+    },
+    command:function(button, e){
+      var codeBox, form, control, submit_btn, wrap, result_obj, node, comm;
+      result_obj = {};
+      codeBox = new cDependant.ModalBox();
+      form = new Request.HTML({
+        evalScripts: false,
+        url:'{% url codedependant_insert_code %}',
+        'onFailure': function () {
+          codeBox.showBox({
+            title:"Insert Code",
+            stage:'Problem retriving the insert code form<br />Let someone know!',
+            closeable:true
+          });
+          
+        },
+        'onSuccess': function (responseTree, responseElements, responseHTML) {
+          codeBox.showBox({
+            title:"Insert Code",
+            stage:'',
+            closeable:false
+          });
+          var fset = new Element('fieldset');
+          fset.inject('stage'); 
+          fset.set('html', responseHTML);
+          control = new Element('li');
+          wrap = new Element('span').addClass('button_wrap');
+          submit_btn = new Element('a', {
+            href: "#",
+            text: "Insert Code",
+            events: {
+              click: function (evt) {
+                evt.stop();
+                var raw_code, safe_code;
+                raw_code = $('id_code').value;
+                safe_code = raw_code;
+                
+                safe_code = safe_code.replace(/</g,'&lt;')
+                safe_code = safe_code.replace(">", "&gt;");
+                safe_code = safe_code.replace("<", "\&lt;");
+                //safe_code = safe_code.replace("&amp;lt", "&lt;")
+                result_obj = {
+                  language:$('id_language').value,
+                  syntax: safe_code
+                }
+                                if (safe_code !== "") {
+                                    node = "<pre class='"+ result_obj.language+":twilight'>"+result_obj.syntax+"</pre>";                                    
+                                    this.selection.insertContent(node);                       
+                                }
+                codeBox.hideBox();
+                result_obj = raw_code = safe_code = '';
+              }.bind(this)
+            }
+          }).addClass('dark_button');
+          submit_btn.inject(wrap);
+          wrap.inject(control);
+          control.inject(fset);
+          codeBox.show();
+        }.bind(this)
+      }).send();
+    }
+  } 
+});

@@ -19,3 +19,4 @@ class ArchivedArticleManager(Manager):
     def get_query_set(self):
         default_query_set = super(ArchivedArticleManager,self).get_query_set() 
         return default_query_set.filter(status = ARCHIVE)
+     

@@ -14,15 +14,11 @@ urlpatterns = patterns('',
         {'document_root': settings.STATIC_DOC_ROOT,'show_indexes': True}),
     # Uncomment the next line to enable the admin:
      (r'^admin/', include(admin.site.urls)),
-
-     
-
 )
 
 urlpatterns+=patterns('',
-    url(r'^$',include('core.urls')),                      
+    url(r'^',include('core.urls')),                      
 )
-
 
 urlpatterns+=patterns('',
     url(r'^photos/',include('photologue.urls')),                      

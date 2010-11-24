@@ -11,7 +11,7 @@ if DEVLOPMENT_MODE:
     DEBUG = True
     TEMPLATE_DEBUG = True
     TEMPLATE_STRING_IF_INVALID = ''
-    CACHE_BACKEND = 'locmem:///'
+#    CACHE_BACKEND = 'locmem:///'
     SESSION_EXPIRE_AT_BROWSER_CLOSE = False
     
 else:

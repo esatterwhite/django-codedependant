@@ -1,0 +1,40 @@
+/* this is the styls sheet loaded into the WYSIWYG editor */
+body{
+  background-color:#0d0d0d;
+  color:#ccc;
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; 
+  font-size:small;  
+}
+h4 { font: medium "Trebuchet MS", Arial, Helvetica, sans-serif; text-transform: capitalize; }
+a { color:#4064A6; text-decoration:none }
+a:hover { color:#FFF; }
+img { background: #111; padding: 6px; border: 1px solid #333; margin: 2px; }
+.quote, blockquote {
+  background:transparent url(img/quote-close.png) no-repeat scroll right bottom;
+  background-color:#181818;
+  border:#333 solid 1px;
+  color:#fff;
+  font-size:.8em;
+  font-style:italic;
+  font-weight:700;
+  margin:5px 50px;
+  padding:6px;
+}
+.quote p, blockquote p{padding:0 0 5px 30px;}
+blockquote p:first-child {
+  background:transparent url(img/quote-start.png) no-repeat scroll left -4px;
+  margin-left:20px
+}
+pre{color:#999; font-size:x-small; font-family: monospace, Helvetica, Courier, sans-serif;}
+h2{
+  color:#888;
+  font-size:x-large;
+  font-variant: small-caps;
+}
+h4{
+  display:block;
+  font-size:large;
+  color:#4064a6;
+  border-bottom:1px solid #444;
+  text-transform: capitalize;
+}

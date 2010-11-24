@@ -625,6 +625,9 @@
 	_cdependant.Forms.GracefullCheckBox = new Class({
 		Extends:_cdependant.Forms.JSCheckbox,
 		Implements:[Events, Options],
+		options:{
+		  anchorClass:'js-dependant-checkbox'
+		},
 		initialize:function(checkID, options){
 			this.element = document.id(checkID);
 			this.setOptions(options);
@@ -654,6 +657,7 @@
 				label.destroy();
 			}catch(e){}
 			this.controller.wraps(this.element, 'bottom');
+			this.controller.getParent().addClass(this.options.anchorClass);
 			this.element.setStyle('display', 'none');
 		}
 	});
@@ -902,7 +906,155 @@
 			return valid;			
 		}
 	});
-	
+  _cdependant.Forms.EditMode = new Class({
+      Implements: [Options, Events],
+      options: {
+          isEditModeOn: false,
+          editorScriptsLoaded: false,
+          warningBlock: null,
+          MEDIA_URL: 'http://media.muskegohitmen.com/',
+          formURL: null, //the url to retrive the editing form from
+          editor_element: 'id_content', // the id of the textarea we are going to convert to the editor
+          editorActions: "h2 h4 p | bold italic | insertunorderedlist indent outdent | undo redo | hitmensearch unlink | image | insertcode toggleview",
+          wikiArea: 'js-wiki-',
+          _RTE: null
+          /* onBuildcomplete:$empty */
+      },
+      initialize: function(options){
+          this.setOptions(options);
+          this.build();
+          
+      },
+      build: function(){
+          var block, close_btn, title, button_wrap;
+          block = new Element('div', {
+              id: 'warningBlock',
+              styles: {
+                  background: '#b30000',
+                  padding: '10px 0px',
+                  position: 'fixed',
+                  bottom: '0',
+                  'z-index': 10000,
+                  opacity: 0,
+                  visibility: 'hidden',
+                  width: '100%'
+              }
+          }).addClass('width100').inject(document.body);
+          title = new Element('h1', {
+              'text': "Edit Mode",
+              styles: {
+                  'margin-right': '20px',
+                  'color': '#000',
+                  'font-family': "Arial Black"
+              }
+          });
+          title.addClass('fr');
+          button_wrap = new Element('span', {
+              'class': 'fr mt-8 mr-10'
+          }).inject(block);
+          close_btn = new Element('a', {
+              'class': 'dark_button',
+              text: 'cancel!',
+              events: {
+                  'click': function(evt){
+                      //console.log('click');
+                      this.confirmExit();
+                  }.bind(this)
+              }
+          }).inject(button_wrap);
+          title.inject(block);
+          this.setOptions({
+              warningBlock: block
+          });
+      },
+      confirmExit: function(){
+          if (confirm("Are you sure you want to exit with out saving??")) {
+              this.options.warningBlock.fade('out');
+              this.turnOff.delay(800, this);
+          }
+      },
+      turnOn: function(){
+          if (!this.options.isEditModeOn) {
+              this.setOptions({
+                  isEditModeOn: true
+              });
+              this.options.warningBlock.fade('in');
+          }
+          else {
+              return false;
+          }
+      },
+      turnOff: function(){
+          if (this.options.isEditModeOn) {
+              this.setOptions({
+                  isEditModeOn: false
+              });
+              
+              window.location.reload();
+          }
+          else {
+              return false;
+          }
+      },
+      buildEditor: function(){
+          if (!this.options.isEditModeOn) {
+              this.turnOn();
+          }
+          else {
+              return false;
+          }
+          var send_btn, form_wrap, form, moo, form_set, controls;
+          
+          form = new Element('form', {
+              method: 'post',
+              action: this.options.formURL,
+              id: 'document_form',
+              enctype: 'multipart/form-data'
+          });
+          form_set = new Element('fieldset', {}).inject(form);
+          form_wrap = new Element('ul').inject(form_set);
+          if (this.options.formURL === null) {
+              return false;
+          }
+          
+          new Request.HTML({
+              method: 'get',
+              url: this.options.formURL,
+              onFailure: function(){
+              
+              },
+              onSuccess: function(rTree, rEls, rHTML, rScripts){
+                  var wikiContainer;
+                  wikiContainer = $$('div[id^={wikiArea}]'.substitute(this.options))[0];
+                  wikiContainer.empty();
+                  wikiContainer.adopt(form);
+                  form_wrap.set('html', rHTML);
+                  moo = $(this.options.editor_element).mooEditable({
+                      externalCSS: "{MEDIA_URL}css/editor.css".substitute(this.options),
+                      actions: this.options.editorActions
+                  });
+                  this.options._RTE = moo;
+              }.bind(this)
+          }).send();
+          
+          controls = new Element('li').inject(form_set, 'bottom');
+          send_btn = new Element('a', {
+              text: "submit",
+              href: "#",
+              'class': 'dark_button p_all-6',
+              events: {
+                  'click': function(evt){
+                      this.options._RTE.saveContent();
+                      form.submit();
+                  }.bind(this)
+              }
+          }).inject(controls);
+          this.fireEvent('buildcomplete');
+      },
+      insert: function(content){
+          this.options._RTE.selection.insertContent(content);
+      }
+  });	
 	/**
 	 * @property {Object} the main Nexus object that holds the classes
 	 */

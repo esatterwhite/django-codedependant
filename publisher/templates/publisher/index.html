@@ -3,7 +3,8 @@
 {% block content %}
   <ul>
   {% for obj in object_list %}
-    <li><a href="{% url codedependant.publisher.views.edit_item ct_id=obj.get_ct, obj_id=obj.pk, slug=obj.slug  %}">{{ obj.title }}</a></li>
+    <li><a href="{% url publisher_content_detail obj.get_ct, obj.pk, obj.slug  %}">{{ obj.title }}</a> 
+        <a href="{% url publisher_content_edit obj.get_ct, obj.pk, obj.slug  %}">edit</a></li>
     {% empty %}
     <li>Nothing</li>
   {% endfor %}

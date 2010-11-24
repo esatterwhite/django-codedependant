@@ -3,9 +3,28 @@
   {{ form.media }}
 {% endblock %}
 {% block content %}
+<div class="p_all-4 bg-deep">
 <form action="" method="post" id="editForm" enctype="multipart/form-data">
-  <ul>
-  {{ form.as_ul }}
-  </ul>
+  <fieldset>
+    <ul class="grid_16 alpha omega">
+      {{ form.as_ul }}
+    </ul>
+  </fieldset>
  </form>
+<div class="p_all-4 bg-deep"> 
+  <script>
+    {% include "core/MooEditable.dependantextra.js.html" %}
+  </script>
+{% endblock %}
+{% block extrascripts %}
+  <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script> 
+  <script>
+    window.addEvent('domready', function(){
+      $$('pre').light({
+        altLines:'hover',
+        mode:'ol',
+        indent:3
+      });
+    });
+  </script>
 {% endblock %}

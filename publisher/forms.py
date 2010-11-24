@@ -7,8 +7,7 @@ from django import forms
 from django.contrib.auth.models import User
 from publisher.models import STORY_CHOICES, Article
 from core.forms.widgets import MooEditor
-class EditModeArticleForm(forms.ModelForm):
-    
+class EditModeArticleForm(forms.ModelForm):    
     users = User.objects.all()
     comment = forms.CharField(required=False)
     status = forms.IntegerField(widget=forms.RadioSelect(choices=STORY_CHOICES))
