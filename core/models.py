@@ -9,6 +9,8 @@ from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 from hotsauce.models import EditableItem, ChangeSet
 
+from django.core.cache import cache
+
 from sorl.thumbnail.fields import ImageField
 from hashlib import md5
 import redis
@@ -43,25 +45,31 @@ class ContentAwareModel(models.Model):
         port=getattr(settings, 'REDIS_PORT', 6379),
         db=getattr(settings, 'REDIS_DB', 0),
     )
-
-    def get_ct(self):
-        '''returns the ContentType Model that represents this object'''
+    def get_ct_proxy(self):
+        return u'%s' % self.__class__.__name__
+    def get_ctype(self):     
+        '''returns the ContentType Model that represents this object'''        
         return ContentType.objects.get_for_model(self)
-    
-    def get_ct_id(self):
+    def get_ctype_id(self):
         '''
             returns the Primary Key of the ContentType model that represents
             this object
         '''
-        return self.get_ct().id
+        cid = (md5("%s_%s" %(self.__class__.__name__, self.pk) ).hexdigest())
+        id = self.__REDIS__.get(cid) or None
+        if id:
+            return id
+        
+        self.__REDIS__.set(cid, self.get_ctype().pk )
+        return self.get_ctype().id
     
     def get_app_label(self):
         '''returns the name of the application in which this object's class lives'''
-        return self.get_ct().app_label
+        return self.get_ctype().app_label
 
     def get_model_name(self):
         '''returns the model name of this object'''
-        return self.get_ct().model
+        return self.get_ctype().model
     
     def get_class_name(self):
         '''return the name of this object's class'''
@@ -70,7 +78,7 @@ class ContentAwareModel(models.Model):
     class Meta:
         abstract = True    
         
-class SelfAwareModel(TimeStampedModel):
+class SelfAwareModel(TimeStampedModel, ContentAwareModel):
     '''
         An Abstract model: models which subclass the SelfAwareModel
         will have a series of methods that give quick access to that
@@ -95,20 +103,6 @@ class SelfAwareModel(TimeStampedModel):
         port=getattr(settings, 'REDIS_PORT', 6379),
         db=getattr(settings, 'REDIS_DB', 0),
     )
-    def get_ct(self):
-        return ContentType.objects.get_for_model(self)
-    
-    def get_ct_id(self):
-        return self.get_ct().id
-    
-    def get_app_label(self):
-        return self.get_ct().app_label
-    
-    def get_model_name(self):
-        return self.get_ct().model
-    
-    def get_class_name(self):
-        return self._meta.verbose_name
         
     class Meta:
         abstract = True        

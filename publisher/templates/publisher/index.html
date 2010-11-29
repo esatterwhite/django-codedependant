@@ -1,12 +1,90 @@
 {% extends 'base.html' %}
-
+{% load pagination_tags %}
+{% block articleclass %}on{% endblock %}
 {% block content %}
-  <ul>
-  {% for obj in object_list %}
-    <li><a href="{% url publisher_content_detail obj.get_ct, obj.pk, obj.slug  %}">{{ obj.title }}</a> 
-        <a href="{% url publisher_content_edit obj.get_ct, obj.pk, obj.slug  %}">edit</a></li>
-    {% empty %}
-    <li>Nothing</li>
-  {% endfor %}
-  </ul>
+  <div>
+      <section class="width30 " id="main-sidebar">
+        {% block sidebar %}
+        <div class="bg-dark p_all-6 bb-light mb-2" id="review-head">
+          <h3>Latest Previews</h3>
+        </div>
+        <table class="tbl-list compact-text">
+        <tbody>
+          <tr class="">
+            <td><a href="#">NFL Madden 2009 looks great</a><br />
+              The latest installment in the madden franchise</td>
+            <td class="w-50"><img  src="images/madden09.jpg" width="50" height="50"  id="madden09" alt="" /></td>
+          </tr>
+          <tr class="alt">
+            <td><a href="#">New Tomb Raider</a><br />
+              Lara is back in all over her dual pistol wielding glory!</td>
+            <td ><span class="w-50"><img  src="images/tr_icon.jpg" width="50" height="50"  id="tr_icon" alt="" /></span></td>
+          </tr>
+          <tr>       
+          </tbody>
+        </table>
+        <div class="bg-dark p_all-6 mt-8 bb-light mb-2" id="review-head">
+          <h3>User Reviews</h3>
+        </div>
+        <table width="97%" class="tbl-list compact-text">
+          <tbody>
+            <tr>
+              <td><a href="#">Surfer dude</a><br />
+                <a href="#" class="lgrey f-11">Katamari is the most inventive interface...</a></td>
+              <td class="w-50"><img  src="images/avatar_a.gif"  id="avatar_a" alt="avatar" /></td>
+            </tr>
+            <tr class="alt">
+              <td><a href="#">kissR</a><br />
+                <a href="#" class="lgrey f-11">This game is a satire of modern society...</a></td>
+              <td ><span class="w-50"><img  src="images/avatar_b.gif"  id="avatar_b" alt="" /></span></td>
+            </tr>
+            <tr>
+              <td><a href="#">Butter</a><br />
+                <a href="#" class="lgrey f-11">Combat mechanics are a mixed bag in this new version...</a></td>
+              <td class="w-50"><img src="images/avatar_c.gif"  id="avatar_c" alt="" /></td>
+            </tr>
+            <tr class="alt">
+              <td><a href="#">ShakenStirred</a><br />
+                <a href="#" class="lgrey f-11">The soundtrack to this game is...</a></td>
+              <td ><span class="w-50"><img  src="images/avatar_d.gif" width="50" height="50"  id="avatar_d" alt="" /></span></td>
+            </tr>
+            </tbody>
+        </table>
+        {% endblock %}
+      </section>
+      <!--      START MAIN AREA     -->
+      <section class="width66 mt-18" id="content-pannel">
+        {% block articlearea %}
+        {% block articletitle %}
+        <div class="bg-med p_all-4 mb-8 border-light" id="article-title">
+          <header><h1>Articles</h1></header>
+        </div>
+        {% endblock %}
+        <div class="bg-med border-light p_all-4" id="article-content">          
+          {% autopaginate object_list 10 %}
+          {% for object in object_list %}
+          <div class="review-block">
+            <table class="tbl-list" >
+            <tbody>
+              <tr>
+                  <td class="grid_3 alpha omega"><img name="{{ object.title }}" src="{{ object.get_content_preview_url }}" width="160" height="65" id="" alt="image" /></td>
+                    <td>
+                      <a class="f-16 bold" href="{{ object.get_absolute_url }}">{{ object.title|title }}</a><a class="comments" href="{{ object.get_absolute_url }}">{{ object.comment_count }}</a>
+                      <summary class="compact-text block">{{ object.summary }}</summary>
+                  </td>
+                </tr>                  
+          </tbody>
+         </table>        
+          </div>
+          {% empty %}
+          <div class="exclaim">No Articles Yet!</div>
+          {% endfor %}
+        </div> 
+         {% block pagination %}
+          {% paginate %}
+         {% endblock %}
+         {% endblock %}
+      </section>
+      <br class="clearfloat" />
+    </div>
 {% endblock %}

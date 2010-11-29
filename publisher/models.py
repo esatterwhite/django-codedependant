@@ -14,9 +14,18 @@ STORY_CHOICES = (
     (8, "DENIED"),
 )
 MODERATION_OPTIONS = (
-    ('approval', 'Approve'),
-    ('denial', 'Deny')
+    ('approval', _('Approve')),
+    ('denial', _('Deny'))
 ) 
+
+CD_RATING_OPTIONS = (
+     (0, _('0 Stars')),                     
+     (1, _('1 Star')),
+     (2, _('2 Stars')),
+     (3, _('3 Stars')),
+     (4, _('4 Stars')),
+     (5, _('5 Stars')),
+)
 class Article(SiteContentItem):
     
 
@@ -47,7 +56,28 @@ class Article(SiteContentItem):
     @permalink
     def get_absolute_url(self):
         return ('codedependant.publisher.views.content_detail', (), {
-                                                       "ct_id":self.get_ct(),
+                                                       "ct_id":self.get_ctype_id(),
                                                        "obj_id":self.pk,
                                                        'slug':self.slug
                                                        })
+class Review(SiteContentItem):
+    status =        models.IntegerField(_("Review Status"),
+                                        choices = STORY_CHOICES, default=1)
+     
+    tag_line =      models.CharField(_('Tag Line'), max_length= 40, 
+                                     blank=False, help_text = "A one - liner to grab the reader's attention")
+    
+    summary =       models.CharField(_('Summary'),
+                                     max_length = 255, blank=True, 
+                                     null=False, help_text=_("no text"))    
+    class Meta:
+        ordering = ('-date_created',)
+        get_latest_by ='date_created'
+        verbose_name_plural = _("Reviews")
+        
+    def __unicode__(self):
+        return u'%s' % self.title
+    
+    @permalink
+    def get_absolute_url(self):
+        return ('', (), {})

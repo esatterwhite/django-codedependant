@@ -6,8 +6,11 @@ from django.template.context import RequestContext
 from codedependant.core.utils import get_admin_object
 from django.http import HttpResponseForbidden, HttpResponseRedirect,\
     HttpResponse
+from django.contrib.contenttypes.models import ContentType
 def index(request):
     object_list = Article.objects.all()
+    #object_list  = Article.objects.filter().extra(select={'comment_count':'''SELECT COUNT(*) FROM "django_comments" WHERE "object_pk" = 'publisher_article.id' AND "content_type_id"=%s'''%ContentType.objects.get_for_model(Article).id})
+    #c = Comment.objects.filter(object_pk=1, content_type=ContentType.objects.get_for_model(Article)).count()
     return render_to_response('publisher/index.html', 
                                 {'object_list':object_list}, 
                                 context_instance=RequestContext(request)
@@ -21,8 +24,6 @@ def edit_item(request, ct_id,obj_id, slug):
     obj = Article.objects.get(pk=obj_id)
     if request.POST:
         form = EditModeArticleForm(request.POST, request.FILES, instance=obj)
-        import pdb
-        pdb.set_trace()
         if form.is_valid():
             item = form.save()
             return HttpResponseRedirect('/')

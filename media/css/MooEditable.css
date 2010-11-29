@@ -126,7 +126,8 @@
 .mooeditable-ui-toolbar .h2-item .button-icon{ background-position: 0 -356px; } 
 .mooeditable-ui-toolbar .h4-item .button-icon{ background-position: 0 -379px; } 
 .mooeditable-ui-toolbar .p-item .button-icon{ background-position: 0 -426px; } 
-
+.mooeditable-ui-toolbar .urlsearch-item .button-icon{ background-position: 0 -502px; }
+.mooeditable-ui-toolbar .photosearch-item .button-icon{ background-position: 0 -526px; }
 .mooeditable-iframe{
 	margin: 0;
 	padding: 0;
@@ -146,7 +147,7 @@
 
 .mooeditable-ui-dialog{
 	color: inherit;
-	background-color: #ddd;
+	background-color: #181818;
 	position: absolute;
 	display: block;
 	cursor: default;
@@ -154,7 +155,7 @@
 	z-index: 100;
 	width: 100%;
 }
-
+.mooeditable-ui-dialog input{width:auto;}
 .mooeditable-ui-dialog .dialog-content{
 	padding: 4px 10px;
 }

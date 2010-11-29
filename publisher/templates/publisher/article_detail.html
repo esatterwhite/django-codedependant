@@ -1,80 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'publisher/index.html' %}
 {% block javascripts %}
   <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script>
     <script src="{{ MEDIA_URL }}js/lighter/Fuel.js"></script>  
 {% endblock %}
-{% block content %}
-<div >
-      <div class="width30 " id="main-sidebar">
-        <div class="bg-dark p_all-6 bb-light mb-2" id="review-head">
-          <h3>Latest Previews</h3>
-        </div>
-        <table class="tbl-list compact-text">
-          <tr>
-            <td><a href="#">NFL Madden 2009 looks great</a><br />
-              The latest installment in the madden franchise</td>
-            <td class="w-50"><img name="madden09" src="images/madden09.jpg" width="50" height="50" border="0" id="madden09" alt="" /></td>
-          </tr>
-          <tr class="alt">
-            <td><a href="#">New Tomb Raider</a><br />
-              Lara is back in all over her dual pistol wielding glory!</td>
-            <td ><span class="w-50"><img name="tr_icon" src="images/tr_icon.jpg" width="50" height="50" border="0" id="tr_icon" alt="" /></span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Final Fantasy XX</a><br />
-              <a href="#" class="lgrey f-11">We knew this day would come, but we didn't think it would happen so soon</a></td>
-            <td class="w-50"><img name="ffxxincon" src="images/ffxxincon.jpg" width="50" height="50" border="0" id="ffxxincon" alt="" /></td>
-          </tr>
-          <tr class="alt">
-            <td><a href="#">Inside Splinter Cell Lost Files</a><br />
-              Behind the scenes of Sam Fisher's latest adventure</td>
-            <td ><span class="w-50"><img name="splintercellicon" src="images/splintercellicon.jpg" width="50" height="50" border="0" id="splintercellicon" alt="" /></span></td>
-          </tr>
-        </table>
-        <div class="bg-dark p_all-6 mt-8 bb-light mb-2" id="review-head">
-          <h3>User Reviews</h3>
-        </div>
-        <table width="97%" class="tbl-list compact-text">
-          <tr >
-            <td><a href="#">Surfer dude</a><br />
-              <a href="#" class="lgrey f-11">Katamari is the most inventive interface...</a></td>
-            <td class="w-50"><img  src="images/avatar_a.gif"  id="avatar_a" alt="avatar" /></td>
-          </tr>
-          <tr class="alt">
-            <td><a href="#">kissR</a><br />
-              <a href="#" class="lgrey f-11">This game is a satire of modern society...</a></td>
-            <td ><span class="w-50"><img  src="images/avatar_b.gif"  id="avatar_b" alt="" /></span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Butter</a><br />
-              <a href="#" class="lgrey f-11">Combat mechanics are a mixed bag in this new version...</a></td>
-            <td class="w-50"><img src="images/avatar_c.gif"  id="avatar_c" alt="" /></td>
-          </tr>
-          <tr class="alt">
-            <td><a href="#">ShakenStirred</a><br />
-              <a href="#" class="lgrey f-11">The soundtrack to this game is...</a></td>
-            <td ><span class="w-50"><img name="avatar_d" src="images/avatar_d.gif" width="50" height="50" border="0" id="avatar_d" alt="" /></span></td>
-          </tr>
-        </table>
-      </div>
       
       <!--    START MAIN AREA     -->
-      <div class="width66 p_all-6 fr bg-dark border-dark mt-18" id="content-pannel">
-        <div class="bg-deep p_all-4" id="article-title">
-          <h1>{{ object.title }}</h1>
-        </div>
-        <div class="bg-med pl-4 mb-4"> written by: <a href="#">{{ object.author.first_name }}</a> on {{ object.date_created|date:"b d Y" }} </div>
-        <div class="bg-med border-light p_all-4" id="article-content">
-          {{ object.content|safe }}
+      <section class="width66 p_all-6 fr bg-dark border-dark mt-18" id="content-pannel">
+        {% block articlearea %}
+        {% block articletitle %}
+          <div class="bg-deep p_all-4" id="article-title">
+            <header><h1>{{ object.title }}</h1></header>
+          </div>
+         {% endblock %}
+          <div class="bg-med pl-4 mb-4"> written by: <a href="#">{{ object.author.first_name }}</a> on {{ object.date_created|date:"b d Y" }} <a href="{% url publisher_content_edit object.get_ctype_id, object.pk, object.slug %}">edit</a></div>
+       
+          
+            <article class='bg-med border-light p_all-4 clearfix' id="article-content">
+               {{ object.content|safe }}
+            </article>
           <br />
-          <div class="comment-wrap">
+          {% block comments %}
+          <div class="comment-wrap"><a name="comments" rel="section" href="#comments" />
           <div class="mb-8"><a href="#" class="plain-link">Log In To Comment</a></div>
             <div class="comment">
               <img src="images/avatar_e.jpg" alt=""width="40" height="40" class="fl" />
               <div class="comment-heading">
               posted by <a href="#" class="white">Butter</a> on fri oct 18 2009 </div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla volutpat facilisis ante quis imperdiet. Suspendisse aliquam scelerisque purus. Praesent malesuada odio et malesuada. Mauris in neque massa.</p>
-            </div>
+            </div>            
             <div class="comment">
               <img  src="images/avatar_f.jpg" id="avatar_f" alt="" class="fl" />      
                 <div class="comment-heading">
@@ -107,12 +60,13 @@
               </fieldset>
             </form>
           </div>
-        </div>
+          <!-- END  Comments area -->
+          {% endblock %}
+          {% endblock %}
+      </section>
       </div>
-      <br class="clearfloat" />
-    </div>
-{% endblock %}
 {% block extrascripts %}
+
   <script>
     window.addEvent('domready', function(){
       $$('pre').light({

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
     <meta name="description" content="" />
     <meta name="keywords" content="" />  
     <meta name="author" content="Eric Satterwhite" />  
@@ -10,6 +10,7 @@
     <link href="{{ MEDIA_URL }}css/reset.css" rel="stylesheet" type="text/css">
     <link href="{{ MEDIA_URL }}css/grid.css" rel="stylesheet" type="text/css">
     <link href="{{ MEDIA_URL }}css/codedependant.css" rel="stylesheet" type="text/css">
+    <link href="{{ MEDIA_URL }}css/Autocompleter.css" rel="stylesheet" type="text/css">
     {% block stylesheets %}{% endblock %}
     
     <!--[if IE]>
@@ -31,11 +32,11 @@
 <body class="">
 <div id="container" class="container_16">
   <div id="header">
-    <div id="logo" class="grid_5 alpha"> <img src="{{ MEDIA_URL }}images/gamepicker_logo.png" width="184" height="37" alt=""></div>
+    <div id="logo" class="grid_5 alpha"> <a href="{% url publisher_index %}"><img src="{{ MEDIA_URL }}images/gamepicker_logo.png" width="184" height="37" alt=""></a></div>
     <header id="topnav" style="" class="grid_11 omega push_1">
       <ul>
-        <li><a href="index.html" class="on">home</a></li>
-        <li><a href="articles.html">articles</a></li>
+        <li><a href="{% url codedependant_home %}" class="{% block homeclass %}{% endblock %}">home</a></li>
+        <li><a href="{% url publisher_index %}" class="{% block articleclass %}{% endblock %}">articles</a></li>
         <li><a href="reviews.html">reviews</a></li>
         <li><a href="previews.html">previews</a></li>
         <li><a href="codescheats.html">cheats</a></li>
@@ -56,7 +57,7 @@
   <div id="top-bar">
     <ul>
       <li><a href="./" class="on">Home</a></li>
-      <li><a href="articles.html">Articles</a></li>
+      <li><a href="{% url publisher_index %}">Articles</a></li>
       <li><a href="reviews.html">Reviews</a></li>
       <li><a href="previews.html">Previews</a></li>
       <li><a href="codescheats.html">Cheats</a></li>
@@ -105,8 +106,12 @@
     </div>
     <img src="{{ MEDIA_URL }}images/logo_sm.png" width="123" height="20" alt="logo"> </div>
 </div> 
-<script src="{{ MEDIA_URL }}js/codedependant.js"></script> 
+<script src="{{ MEDIA_URL }}js/codedependant.js"></script>
+<script src="{{ MEDIA_URL }}js/ReMooz.js"></script>  
 <script src="{{ MEDIA_URL }}js/codedependant.forms.js"></script>
+<script src="{{ MEDIA_URL }}js/autocompleter/Observer.js"></script>
+<script src="{{ MEDIA_URL }}js/autocompleter/Autocompleter.js"></script>
+<script src="{{ MEDIA_URL }}js/autocompleter/Autocompleter.Request.js"></script>
 {% block extrascripts %}{% endblock %}
 </body>
 </html>

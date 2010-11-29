@@ -60,11 +60,12 @@ Object.append(MooEditable.Actions, {
           codeBox.showBox({
             title:"Insert Code",
             stage:'',
-            closeable:false
+            closeable:true
           });
           var fset = new Element('fieldset');
+          var ulist = new Element('ul').inject(fset)
           fset.inject('stage'); 
-          fset.set('html', responseHTML);
+          ulist.set('html', responseHTML);
           control = new Element('li');
           wrap = new Element('span').addClass('button_wrap');
           submit_btn = new Element('a', {
@@ -96,7 +97,7 @@ Object.append(MooEditable.Actions, {
           }).addClass('dark_button');
           submit_btn.inject(wrap);
           wrap.inject(control);
-          control.inject(fset);
+          control.inject(ulist);
           codeBox.show();
         }.bind(this)
       }).send();
