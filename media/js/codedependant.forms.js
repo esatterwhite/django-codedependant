@@ -912,6 +912,8 @@
           isEditModeOn: false,
           editorScriptsLoaded: false,
           warningBlock: null,
+          warningColor:"#B30000",
+          warningTextColor:"#000000",
           MEDIA_URL: 'http://media.muskegohitmen.com/',
           formURL: null, //the url to retrive the editing form from
           editor_element: 'id_content', // the id of the textarea we are going to convert to the editor
@@ -930,7 +932,7 @@
           block = new Element('div', {
               id: 'warningBlock',
               styles: {
-                  background: '#b30000',
+                  background: this.options.warningColor,
                   padding: '10px 0px',
                   position: 'fixed',
                   bottom: '0',
@@ -944,8 +946,9 @@
               'text': "Edit Mode",
               styles: {
                   'margin-right': '20px',
-                  'color': '#000',
-                  'font-family': "Arial Black"
+                  'color': this.options.warningTextColor,
+                  'font-family': "Arial Black",
+                  'font-size':22
               }
           });
           title.addClass('fr');
@@ -1025,7 +1028,7 @@
               },
               onSuccess: function(rTree, rEls, rHTML, rScripts){
                   var wikiContainer;
-                  wikiContainer = $$('div[id^={wikiArea}]'.substitute(this.options))[0];
+                  wikiContainer = document.id(this.options.wikiArea);
                   wikiContainer.empty();
                   wikiContainer.adopt(form);
                   form_wrap.set('html', rHTML);
@@ -1033,22 +1036,23 @@
                       externalCSS: "{MEDIA_URL}css/editor.css".substitute(this.options),
                       actions: this.options.editorActions
                   });
+                  controls = new Element('li').inject(form_wrap, 'bottom');
+                  send_btn = new Element('input', {
+                      value: "submit",
+                      type: "submit",
+                      'class': 'dark_button p_all-6',
+                      events: {
+                          'click': function(evt){
+                              this.options._RTE.saveContent();
+                              form.submit();
+                          }.bind(this)
+                      }
+                  }).inject(controls);                  
                   this.options._RTE = moo;
               }.bind(this)
           }).send();
           
-          controls = new Element('li').inject(form_set, 'bottom');
-          send_btn = new Element('a', {
-              text: "submit",
-              href: "#",
-              'class': 'dark_button p_all-6',
-              events: {
-                  'click': function(evt){
-                      this.options._RTE.saveContent();
-                      form.submit();
-                  }.bind(this)
-              }
-          }).inject(controls);
+
           this.fireEvent('buildcomplete');
       },
       insert: function(content){

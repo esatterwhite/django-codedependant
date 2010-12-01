@@ -1,3 +1,7 @@
+''' 
+    Docstrings go Here 
+'''
+
 from diff_match_patch import diff_match_patch
 from django.conf import settings
 from django.contrib.contenttypes import generic
@@ -5,21 +9,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import striptags
-from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
-from hotsauce.models import EditableItem, ChangeSet
-
-from django.core.cache import cache
-
-from sorl.thumbnail.fields import ImageField
 from hashlib import md5
+from hotsauce.models import EditableItem, ChangeSet
+from photologue.models import ImageModel
 import redis
-
-class TestModel(models.Model):
-    title = models.CharField(max_length=255, blank=False,null=False)
-    slug =  AutoSlugField(populate_from=('title'),db_index=True, unique=True)
-    thumbnail = ImageField(upload_to="images/")
-    
 
 # generic - can go on anything
 class ContentAwareModel(models.Model):
@@ -46,6 +40,9 @@ class ContentAwareModel(models.Model):
         db=getattr(settings, 'REDIS_DB', 0),
     )
     def get_ct_proxy(self):
+        ''' 
+            returns the name of this contenttype as a string without hitting the database 
+        '''
         return u'%s' % self.__class__.__name__
     def get_ctype(self):     
         '''returns the ContentType Model that represents this object'''        
@@ -56,15 +53,17 @@ class ContentAwareModel(models.Model):
             this object
         '''
         cid = (md5("%s_%s" %(self.__class__.__name__, self.pk) ).hexdigest())
-        id = self.__REDIS__.get(cid) or None
-        if id:
-            return id
+        mid = self.__REDIS__.get(cid) or None
+        if mid:
+            return mid
         
         self.__REDIS__.set(cid, self.get_ctype().pk )
         return self.get_ctype().id
     
     def get_app_label(self):
-        '''returns the name of the application in which this object's class lives'''
+        '''
+            returns the name of the application in which this object's class lives
+        '''
         return self.get_ctype().app_label
 
     def get_model_name(self):
@@ -107,8 +106,12 @@ class SelfAwareModel(TimeStampedModel, ContentAwareModel):
     class Meta:
         abstract = True        
 
-from photologue.models import ImageModel
 class SiteContentItem(EditableItem, ImageModel, ContentAwareModel):
+    '''
+        Primary class for content on the site.
+        Models should sublcass from here to provide a 
+        common API.
+    '''
     html_patch = models.TextField(blank = True, 
                                   null = True, 
                                   editable = False)    
@@ -121,18 +124,33 @@ class SiteContentItem(EditableItem, ImageModel, ContentAwareModel):
     def __unicode__(self):
         return (u"%s" % self.title )
     
+    def delete(self):
+        try:
+            self.changes.all().delete()
+        except:
+            pass
+        
     def hit_key(self):
-        return md5("%s:%s" %( self.get_ct(), self.pk )).hexdigest()
-    def hit(self):
+        ''' returns md5 hash key for the instance in question '''
+        return md5("%s:%s" %( self.get_ctype_id(), self.pk )).hexdigest()
+    def hit(self): 
+        ''' increments the internal hit counter by 1 '''
         _RCLIENT = self.__REDIS__
         _RCLIENT.incr(self.hit_key())
     def unhit(self):
+        ''' 
+            decriments internal hit counter by 1 
+        '''
         _RCLIENT = self.__REDIS__
         _RCLIENT.decr(self.hit_key()) 
     def get_hits(self):
+        ''' 
+            returns the number of times the instance in question has been seen 
+        '''
         _RCLIENT = self.__REDIS__
         return _RCLIENT.get(self.hit_key())
-    get_hits.short_description = "hits"    
+    get_hits.short_description = "hits"   
+     
     def revert_to(self, revision, author=None):
         '''takes a revision number queries for the changset and returns it '''
         
@@ -140,13 +158,14 @@ class SiteContentItem(EditableItem, ImageModel, ContentAwareModel):
         changeset = self.changes.objects.get(version=revision)
         changeset.reapply(author)
 
-    def current_version(self):
-        '''DOCSTRINGS'''
+    def latest_revision(self):
+        '''returns the changeset object '''
         try:
-            return self.changes.latest().revision
+            return self.changes.latest()
         except:
-            None
+            ChangeSet.objects.none()
     def current_version_number(self):
+        ''' returns the numeric revision number of this object'''
         try:
             return self.changes.latest().revision
         except:
@@ -195,20 +214,23 @@ class SiteContentItem(EditableItem, ImageModel, ContentAwareModel):
             self.html_patch = _dmp.patch_toText(patch)
     
     def as_plain_text(self):
+        '''
+            returns the main content with HTML tags striped out
+        '''
         return striptags(self.content)
-    def see_version_diff(self, revision):
-        _dmp = diff_match_patch()
+    def see_version_diff(self, revision):        
         '''see the difference of a revision and the previous revision
             if the user wants revision 4, we compare revision 4 & 3
         '''
+        _dmp = diff_match_patch()
         if revision == 1:
             return self.latest_changeset().display_change_html()
         else:
             compare = revision -1
         
-        r = Q(revision=revision)
-        c = Q(revision=compare)
-        changes = self.changes.filter(r|c)
+        rev = Q(revision=revision)
+        cmpr = Q(revision=compare)
+        changes = self.changes.filter(rev|cmpr)
         #see_item_at_version
         latest = changes[0]
         early = changes[1]
@@ -218,6 +240,7 @@ class SiteContentItem(EditableItem, ImageModel, ContentAwareModel):
         diffs = _dmp.diff_main(latest_content, early_content)
         return _dmp.diff_prettyHtml(diffs)
     def get_html_content(self):
+        ''' returns the full HTML content of the item in question '''
         if self.html_patch is None:
             return self.content
         else:

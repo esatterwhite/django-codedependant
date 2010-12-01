@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 
 admin.autodiscover()
-
+handler500 = 'codedependant.core.views.base.server_error'
 urlpatterns = patterns('',
     # Example:
     # (r'^codedependant/', include('codedependant.foo.urls')),

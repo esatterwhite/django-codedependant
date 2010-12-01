@@ -1,6 +1,20 @@
 html { }
 body {position:relative; background:#0D0D0D url(img/gamepicker_header_bg.jpg) no-repeat center top; color:#CCC; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:small; }
 h4 { font: medium "Trebuchet MS", Arial, Helvetica, sans-serif; text-transform: capitalize; }
+h2{
+  color:#888;
+  font-size:x-large;
+  font-variant: small-caps;
+  margin-bottom:4px;
+}
+h4{
+  display:block;
+  font-size:large;
+  color:#4064a6;
+  border-bottom:1px solid #444;
+  text-transform: capitalize;
+  margin-bottom:4px;
+}
 a { color:#4064A6; text-decoration:none }
 a:hover { color:#FFF; text-decoration:underline; }
 .block{display:block;}
@@ -211,7 +225,7 @@ table { border-collapse:collapse; }
 #footer-wrap #footer-bg ul li.gallery-block { background-image: url(img/gallery_add.png); background-repeat: no-repeat; background-position: left center; padding-left: 20px; }
 #article-content{display:block;}
 #article-content p { text-indent: 10px; margin-bottom: 8px; line-height:150%;}
-.button_wrap { padding:1px; background:#333; }
+.button_wrap { padding:1px; background:#333; display:inline-block; }
 fieldset li { margin-bottom:4px; background:#272727; padding:10px 4px; border:1px solid #333; width:auto}
 #comment-form fieldset li input.dark_button, .dark_button { background-color: #333; background-image: url(img/gamepicker_button_bg_dark.jpg); background-repeat: repeat-x; background-position: left center;border: 1px solid #000; padding:6px; font: 0.8em "Trebuchet MS", Arial, Helvetica, sans-serif; color: #CCC; }
 #comment-form fieldset li input.dark_button:hover, .dark_button:hover  { background-color: #333; background-image: url(img/gamepicker_button_bg_dark_hover_alt.jpg); }

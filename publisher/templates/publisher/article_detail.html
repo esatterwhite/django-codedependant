@@ -1,7 +1,11 @@
 {% extends 'publisher/index.html' %}
+{% block stylesheets %}
+  <link href="{{ MEDIA_URL }}css/MooEditable.css" rel="stylesheet" type="text/css">
+{% endblock %}
 {% block javascripts %}
   <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script>
-    <script src="{{ MEDIA_URL }}js/lighter/Fuel.js"></script>  
+  <script src="{{ MEDIA_URL }}js/lighter/Fuel.js"></script>
+   
 {% endblock %}
       
       <!--    START MAIN AREA     -->
@@ -12,7 +16,7 @@
             <header><h1>{{ object.title }}</h1></header>
           </div>
          {% endblock %}
-          <div class="bg-med pl-4 mb-4"> written by: <a href="#">{{ object.author.first_name }}</a> on {{ object.date_created|date:"b d Y" }} <a href="{% url publisher_content_edit object.get_ctype_id, object.pk, object.slug %}">edit</a></div>
+          <div class="bg-med pl-4 mb-4"> written by: <a href="#">{{ object.author.first_name }}</a> on {{ object.date_created|date:"b d Y" }} <a href="{% url publisher_content_edit object.get_ctype_id, object.pk, object.slug %}" id="editmode">edit</a></div>
        
           
             <article class='bg-med border-light p_all-4 clearfix' id="article-content">
@@ -66,9 +70,28 @@
       </section>
       </div>
 {% block extrascripts %}
-
+  <script src="{{ MEDIA_URL }}js/MooEditable.js"></script> 
+  <script type="text/javascript" src="http://127.0.0.1:8000/static_media/js/MooEditable.Urlsearch.js"></script>
+  <script type="text/javascript" src="http://127.0.0.1:8000/static_media/js/MooEditable.Photosearch.js"></script>   
+  <script>
+    {% include "core/MooEditable.dependantextra.js.html" %}
+  </script>
+  <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script> 
   <script>
     window.addEvent('domready', function(){
+      var emode = new cDependant.Forms.EditMode({
+        MEDIA_URL:"{{ MEDIA_URL }}",
+        wikiArea:'content-pannel',
+        warningColor:'#4064A6',
+        warningTextColor:"#dddddd",
+        formURL:'{% url publisher_content_edit object.get_ctype_id, object.pk, object.slug %}',
+        editorActions:'h2 h4 p | bold italic | insertunorderedlist indent outdent | undo redo | createlink urlsearch unlink | urlimage photosearch | insertcode toggleview'
+        
+      })
+      document.id('editmode').addEvent('click', function(evt){
+        emode.buildEditor();
+        evt.preventDefault();
+      });
       $$('pre').light({
         altLines:'hover',
         mode:'ol',

@@ -22,7 +22,7 @@ var ReMooz = new Class({
     centered: false,
     dragging: true,
     closeOnClick: true,
-    shadow: (Browser.Engine.trident) ? 'onOpenEnd' : 'onOpen', // performance
+    shadow: (Browser.ie) ? 'onOpenEnd' : 'onOpen', // performance
     resize: true,
     margin: 20,
     resizeFactor: 0.95,
@@ -224,7 +224,7 @@ var ReMooz = new Class({
       this.box.addClass('remooz-box-focus').setStyle('z-index', ReMooz.options.zIndexFocus);
     }, true);
 
-    var classes = ['remooz-box', 'remooz-type-' + this.options.type, 'remooz-engine-' + Browser.Engine.name + Browser.Engine.version];
+    var classes = ['remooz-box', 'remooz-type-' + this.options.type, 'remooz-engine-' + Browser.Platform.name];
     if (this.options.className) classes.push(this.options.className);
     this.box = new Element('div', {
       'class': classes.join(' '),
@@ -246,7 +246,7 @@ var ReMooz = new Class({
       ),
       'fade': new Fx.Tween(null, $merge({
           'property': 'opacity',
-          'duration': (Browser.Engine.trident) ? 0 : 300,
+          'duration': (Browser.ie) ? 0 : 300,
           'chain': 'cancel'
         }, this.options.fxOptions)).addEvents({
           'onComplete': function() {
@@ -261,9 +261,9 @@ var ReMooz = new Class({
     this.tweens.fade.element = $$();
 
     if (this.options.shadow) {
-      if (Browser.Engine.webkit420) {
+      if (Browser.safari || Browser.chrome) {
         this.box.setStyle('-webkit-box-shadow', '0 0 10px rgba(0, 0, 0, 0.7)');
-      } else if (!Browser.Engine.trident4) {
+      } else if (!Browser.ie6) {
         var shadow = new Element('div', {'class': 'remooz-bg-wrap'}).inject(this.box);
         ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].each(function(dir) {
           new Element('div', {'class': 'remooz-bg remooz-bg-' + dir}).inject(shadow);

@@ -69,7 +69,8 @@ MooEditable.UI.PhotosearchDialog = function(editor){
 						});
 						imageElement = new Element('img',{
 							src:photourl.value,
-							'class':'p_all-6 ' + this.el.getElement('select').value							
+							'class':'p_all-6 ' + this.el.getElement('select').value
+							
 						}).inject(anchor);
 						anchor.inject(wrap);
 						editor.selection.insertContent(wrap.get('html'));
@@ -80,20 +81,21 @@ MooEditable.UI.PhotosearchDialog = function(editor){
 		}
 	});
 };
-MooEditable.Actions.photosearch={
-	title:'Find Image',
-	type:'button',
-	options:{
-		mode:'icon',
-		shortcut:'e'
-	},
-	dialogs:{
-		prompt:function(editor){
-			return MooEditable.UI.PhotosearchDialog(editor);
+Object.append(MooEditable.Actions,{
+    photosearch:{
+    	title:'Find Image',
+    	type:'button',
+    	options:{
+    		mode:'icon',
+    		shortcut:'e'
 		}
-	},
-	command:function(){
-		this.dialogs.photosearch.prompt.open();
-	}
-	
-};
+  	},
+  	dialogs:{
+  		prompt:function(editor){
+  			return MooEditable.UI.PhotosearchDialog(editor);
+  		}
+  	},
+  	command:function(){
+  		this.dialogs.photosearch.prompt.open();
+  	}
+});

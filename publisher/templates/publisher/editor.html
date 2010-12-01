@@ -9,15 +9,17 @@
   <fieldset>
     <ul class="grid_16 alpha omega">
       {{ form.as_ul }}
+      <li><span class="button_wrap"><input type="submit" class="dark_button" id="submit_btn"/></span></li>
     </ul>
   </fieldset>
  </form>
 </div>
+
+{% endblock %}
+{% block extrascripts %}
   <script>
     {% include "core/MooEditable.dependantextra.js.html" %}
   </script>
-{% endblock %}
-{% block extrascripts %}
   <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script> 
   <script>
     window.addEvent('domready', function(){
