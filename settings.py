@@ -18,11 +18,11 @@ else:
     DEBUG = False
     TEMPLATE_DEBUG = False
     TEMPLATE_STRING_IF_INVALID = ''
-    CACHE_BACKEND= 'dummy:///' 
+    CACHE_BACKEND = 'dummy:///' 
     SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Eric Satterwhite', 'eric@codedependant.net'),
 )
 
 MANAGERS = ADMINS
@@ -38,7 +38,7 @@ DATABASES = {
     }
 }
 DJAPIAN_DATABASE_PATH = './djapian_spaces'
-REDIS_HOST='localhost'
+REDIS_HOST ='localhost'
 REDIS_DB = 0
 REDIS_PORT = 6379
 # Local time zone for this installation. Choices can be found here:

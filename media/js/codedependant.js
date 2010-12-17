@@ -53,19 +53,19 @@ Array.implement({
 					left:0,
 					'z-index': 999,
 					events: {
-						'dblclick': function(e){
+						dblclick: function(e){
 							this.options.closeable ? this.hide() : false;
 						}.bind(this)
 					}
 				}
-			}).inject(this.options.element,'top');
+			});
 		},
 		TrackInstances:false,
 		show:function( options ){
 			if( options ){ 
 				this.setOptions( options );
 			}			
-			this.element.fade( this.options.opacity );
+			this.element.inject(this.options.element,'top').fade( this.options.opacity );
 			return this;
 		},
 		hide:function(){
@@ -86,8 +86,8 @@ Array.implement({
 		  stage:"<p>hello</p>",
       className: 'smallBox',
       isMaskOn: false,
-      onBoxopen: Function.from(),
-      onBoxclose: Function.from()		  
+      onBoxopen: $empty,
+      onBoxclose: $empty		  
 		},
 		initialize:function(options){
 			this.setOptions(options);
@@ -173,8 +173,14 @@ Array.implement({
         this.hide();
         this.options.modalBox.dispose();
         //            this.hide.delay(1500);
+        this.destroy.delay(700, this);
     },		
 	});	
 	window.cDependant = _cdependant;	
 })(window);
 
+document.id(window).addEvent('domready', function(){
+  new Fx.SmoothScroll({
+    links:'.smoothscroll'
+  })
+});

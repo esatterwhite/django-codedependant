@@ -81,14 +81,12 @@ MooEditable.UI.PhotosearchDialog = function(editor){
 		}
 	});
 };
-Object.append(MooEditable.Actions,{
-    photosearch:{
+MooEditable.Actions.photosearch = {
     	title:'Find Image',
     	type:'button',
     	options:{
     		mode:'icon',
     		shortcut:'e'
-		}
   	},
   	dialogs:{
   		prompt:function(editor){
@@ -98,4 +96,4 @@ Object.append(MooEditable.Actions,{
   	command:function(){
   		this.dialogs.photosearch.prompt.open();
   	}
-});
+};

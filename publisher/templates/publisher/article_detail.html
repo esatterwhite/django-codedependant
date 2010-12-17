@@ -1,4 +1,5 @@
 {% extends 'publisher/index.html' %}
+{% load cache_comments %}
 {% block stylesheets %}
   <link href="{{ MEDIA_URL }}css/MooEditable.css" rel="stylesheet" type="text/css">
 {% endblock %}
@@ -25,7 +26,13 @@
           <br />
           {% block comments %}
           <div class="comment-wrap"><a name="comments" rel="section" href="#comments" />
-          <div class="mb-8"><a href="#" class="plain-link">Log In To Comment</a></div>
+          <div class="mb-8">
+            {% if user.is_authenticated %}
+            <a href="#post" class="plain-link smoothscroll">Post a comment</a>
+            {% else %}
+            <a href="#" class="plain-link">Log in to comment</a>
+            {% endif %}
+          </div>
             <div class="comment">
               <img src="images/avatar_e.jpg" alt=""width="40" height="40" class="fl" />
               <div class="comment-heading">
@@ -50,11 +57,14 @@
             posted by <a href="#">Assassin</a> on fri oct 18 2009 </div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla volutpat facilisis ante quis imperdiet. Suspendisse aliquam scelerisque purus. Praesent malesuada odio et malesuada. Mauris in neque massa.</p>
             </div>
-            <form id="comment-form" action="" method="post">
+            {% if user.is_authenticated %}
+            {% get_comment_form for object as cForm %}          
+            <form id="comment-form" action="{% comment_form_target %}" method="post"><a name="post" href="#post" />
               <fieldset>
                 <ul>
                   <li>
-                    <textarea name="textarea" rows="5" cols="40"></textarea>
+                   {{ cForm.comment }}
+                   {{ cForm.content_type }}{{ cForm.object_pk }}{{ cForm.security_hash }}{{ cForm.timestamp }}
                   </li>
                   <li> <span class="fl button_wrap">
                     <input type="submit" class="dark_button" value="Post Comment" />
@@ -63,6 +73,7 @@
                 </ul>
               </fieldset>
             </form>
+            {% endif %}
           </div>
           <!-- END  Comments area -->
           {% endblock %}
@@ -70,24 +81,36 @@
       </section>
       </div>
 {% block extrascripts %}
-  <script src="{{ MEDIA_URL }}js/MooEditable.js"></script> 
-  <script type="text/javascript" src="http://127.0.0.1:8000/static_media/js/MooEditable.Urlsearch.js"></script>
-  <script type="text/javascript" src="http://127.0.0.1:8000/static_media/js/MooEditable.Photosearch.js"></script>   
+  <script src="{{ MEDIA_URL }}js/MooEditable.js"></script>
+  <script src="{{ MEDIA_URL }}js/Fx.ProgressBar.js"></script>
+  <script src="{{ MEDIA_URL }}js/Swiff.Uploader.js"></script> 
+  <script src="{{ MEDIA_URL }}js/FancyUpload2.js"></script>  
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/MooEditable.Urlsearch.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}js/MooEditable.Photosearch.js"></script>   
   <script>
     {% include "core/MooEditable.dependantextra.js.html" %}
   </script>
   <script src="{{ MEDIA_URL }}js/lighter/Lighter.js"></script> 
   <script>
     window.addEvent('domready', function(){
-      var emode = new cDependant.Forms.EditMode({
+      var emode, alerts;
+      emode = new cDependant.Forms.EditMode({
         MEDIA_URL:"{{ MEDIA_URL }}",
         wikiArea:'content-pannel',
         warningColor:'#4064A6',
         warningTextColor:"#dddddd",
         formURL:'{% url publisher_content_edit object.get_ctype_id, object.pk, object.slug %}',
-        editorActions:'h2 h4 p | bold italic | insertunorderedlist indent outdent | undo redo | createlink urlsearch unlink | urlimage photosearch | insertcode toggleview'
+        editorActions:'h2 h4 p | bold italic | insertunorderedlist indent outdent | undo redo | createlink urlsearch unlink | urlimage photosearch swfupload | insertcode toggleview'
         
       })
+      alerts = new Roar({
+        duration:4000
+      });
+       {% if messages %}
+        {% for message in messages %}
+          alerts.alert('{{ message.tags }}', '{{ message }}'.clean());
+        {% endfor %}
+       {% endif %}
       document.id('editmode').addEvent('click', function(evt){
         emode.buildEditor();
         evt.preventDefault();

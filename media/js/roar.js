@@ -25,9 +25,9 @@ var Roar = new Class({
 		offset: 10,
 		bgOpacity:0.7,
 		className: 'roar',
-		onShow: Function.from(),
-		onHide: Function.from(),
-		onRender: Function.from()
+		onShow: $empty,
+		onHide: $empty,
+		onRender: $empty
 	},
 
 	initialize: function(options) {

@@ -16,10 +16,10 @@
 			errorClass:'',
 			handleSubmit:true,
 			placeHolderText:'Start Here...',
-			onInvalid:Function.from(),
-			onValid:Function.from(),
-			onFieldFocus:Function.from(),
-			onFieldBlur:Function.from()
+			onInvalid:$empty,
+			onValid:$empty,
+			onFieldFocus:$empty,
+			onFieldBlur:$empty
 		},
 		initialize:function(selector, options){
 			var els, that = this;			
@@ -100,8 +100,8 @@
 		Implements:[Events, Options],
 		options:{
 			inlineMessages:true,
-			onInvalid:Function.from(),
-			onValid:Function.from()
+			onInvalid:$empty,
+			onValid:$empty
 		},
 		initialize:function(formSelector, validators,options){
 			var that = this;
@@ -176,10 +176,10 @@
 			cleanUp:null,				// css selector of elements you want removed when element is reset
 			notifications:true,			// show validation messages in form
 			inlineWarning:true,			// run validation as user types and adds errorClassName
-			onValid:Function.from(),
-			onInvalid:Function.from(),
-			onFieldBlur:Function.from(),
-			onFieldFocus:Function.from()
+			onValid:$empty,
+			onInvalid:$empty,
+			onFieldBlur:$empty,
+			onFieldFocus:$empty
 		},
 		/**
 		 * @constructor
@@ -346,8 +346,8 @@
 		options:{
 			resetValue:-1,
 			addValue:-100,
-			onElementreset:Function.from(),
-			onElementchange:Function.from()		
+			onElementreset:$empty,
+			onElementchange:$empty		
 		},
 		initialize:function(selector, options){
 			this.element = document.id(selector);
@@ -419,8 +419,8 @@
 			label:'Checkbox',
 			baseColor:'#1186D4',
 			uncheckedColor:"#999999",
-			onChecked:Function.from(),
-			onUnchecked:Function.from()
+			onChecked:$empty,
+			onUnchecked:$empty
 				
 		},
 		initialize:function(selector,options){
@@ -679,9 +679,9 @@
 		options:{
 			stacked:true,
 			radio:true,
-			onChange:Function.from(),
-			onCheck:Function.from(),
-			onUncheck:Function.from()
+			onChange:$empty,
+			onCheck:$empty,
+			onUncheck:$empty
 		},
 		name:null,
 		elements:null,	
@@ -752,7 +752,7 @@
 						}else{
 							this.elements.instances.push(checkbox);
 						}
-					});
+					}.bind(this));
 			/*
 			 * else check to make sure we get what we want and add it
 			 */
@@ -1032,10 +1032,7 @@
                   wikiContainer.empty();
                   wikiContainer.adopt(form);
                   form_wrap.set('html', rHTML);
-                  moo = $(this.options.editor_element).mooEditable({
-                      externalCSS: "{MEDIA_URL}css/editor.css".substitute(this.options),
-                      actions: this.options.editorActions
-                  });
+
                   controls = new Element('li').inject(form_wrap, 'bottom');
                   send_btn = new Element('input', {
                       value: "submit",
@@ -1047,8 +1044,15 @@
                               form.submit();
                           }.bind(this)
                       }
-                  }).inject(controls);                  
+                  }).inject(controls);  
+                  
+                  moo = $(this.options.editor_element).mooEditable({
+                      externalCSS: "{MEDIA_URL}css/editor.css".substitute(this.options),
+                      actions: this.options.editorActions
+                  });  
+                                
                   this.options._RTE = moo;
+                  
               }.bind(this)
           }).send();
           

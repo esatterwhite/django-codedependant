@@ -10,7 +10,7 @@
  * @copyright	Author
  */
 this.$unlink = function(object){
-	switch (typeOf(object)){
+	switch ($type(object)){
 		case 'object': return Object.clone(object);
 		case 'array': return Array.clone(object);
 		case 'hash': return new Hash(object);
