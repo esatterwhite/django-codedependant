@@ -11,6 +11,7 @@
     <link href="{{ MEDIA_URL }}css/grid.css" rel="stylesheet" type="text/css">
     <link href="{{ MEDIA_URL }}css/codedependant.css" rel="stylesheet" type="text/css">
     <link href="{{ MEDIA_URL }}css/Autocompleter.css" rel="stylesheet" type="text/css">
+    <link href="{{ MEDIA_URL }}css/roar.css" rel="stylesheet" type="text/css">
     {% block stylesheets %}{% endblock %}
     
     <!--[if IE]>
@@ -30,9 +31,9 @@
     {% block formmedia %}{% endblock %}
   </head>
 <body class="">
-<div id="container" class="container_16">
+<div id="container" class="container_16" style="margin-bottom:125px;">
   <div id="header">
-    <div id="logo" class="grid_5 alpha"> <a href="{% url publisher_index %}"><img src="{{ MEDIA_URL }}images/gamepicker_logo.png" width="184" height="37" alt=""></a></div>
+    <div id="logo" class="grid_5 alpha"> <a href="{% url codedependant_home %}"><img src="{{ MEDIA_URL }}images/gamepicker_logo.png" width="184" height="37" alt=""></a></div>
     <header id="topnav" style="" class="grid_11 omega push_1">
       <ul>
         <li><a href="{% url codedependant_home %}" class="{% block homeclass %}{% endblock %}">home</a></li>
@@ -47,13 +48,16 @@
     </header>
     <br class="clearfloat" />
   </div>
+  {% block main %}
   <div class="bg-med border-light p_all-4" id="site-container">
     {% block content %}
 
     {% endblock %}
   </div>
+  {% endblock %}
 </div>
-<div id="footer-wrap" class="bg-dark">
+{% block footer %}
+<div id="footer-wrap" class="bg-dark" style="{% block footerstyles %} {% endblock %}">
   <div id="top-bar">
     <ul>
       <li><a href="./" class="on">Home</a></li>
@@ -65,7 +69,7 @@
     </ul>
     <br class="clearfloat">
   </div>
-  <div class="pos-rel" id="footer-bg">
+  <div class="pos-rel " id="footer-bg" >
     <section class="fl width33 p_all-6 ml-8"> <img src="../css/img/RSS_16.png" alt="" width="16" height="16" class="fr ml-4">
       <h4>Site Updates</h4>
       <ul>
@@ -106,8 +110,10 @@
     </div>
     <img src="{{ MEDIA_URL }}images/logo_sm.png" width="123" height="20" alt="logo"> </div>
 </div> 
+{% endblock %}
 <script src="{{ MEDIA_URL }}js/codedependant.js"></script>
 <script src="{{ MEDIA_URL }}js/ReMooz.js"></script>  
+<script src="{{ MEDIA_URL }}js/roar.js"></script>  
 <script src="{{ MEDIA_URL }}js/codedependant.forms.js"></script>
 <script src="{{ MEDIA_URL }}js/autocompleter/Observer.js"></script>
 <script src="{{ MEDIA_URL }}js/autocompleter/Autocompleter.js"></script>

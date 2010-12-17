@@ -18,9 +18,12 @@ urlpatterns = patterns('',
 )
 
 urlpatterns+=patterns('',
-    url(r'^',include('core.urls')),                      
+    url(r'^',include('core.urls')),     
+             
 )
-
+urlpatterns+=patterns( '', 
+   url(r'^comments/', include('django.contrib.comments.urls')),                               
+)
 urlpatterns+=patterns('',
     url(r'^photos/',include('photologue.urls')),                      
 )
