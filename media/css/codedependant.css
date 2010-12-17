@@ -1,4 +1,28 @@
 html { }
+@font-face {
+  font-family: 'MyriadProRegular';
+  src: url('fonts/myriadpro-regular-webfont.eot');
+  src: local('☺'), url('fonts/myriadpro-regular-webfont.woff') format('woff'), url('fonts/myriadpro-regular-webfont.ttf') format('truetype'), url('fonts/myriadpro-regular-webfont.svg#webfonthWQiC2Xj') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyriadProBold';
+  src: url('fonts/myriadpro-bold-webfont.eot');
+  src: local('☺'), url('fonts/myriadpro-bold-webfont.woff') format('woff'), url('fonts/myriadpro-bold-webfont.ttf') format('truetype'), url('fonts/myriadpro-bold-webfont.svg#webfontyPnT7cSU') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SquareTypeBRegular';
+  src: url('fonts/squaretypeb_by_digitalam-webfont.eot');
+  src: local('☺'), url('fonts/squaretypeb_by_digitalam-webfont.woff') format('woff'), url('fonts/squaretypeb_by_digitalam-webfont.ttf') format('truetype'), url('fonts/squaretypeb_by_digitalam-webfont.svg#webfonthZ2U6Ns3') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {position:relative; background:#0D0D0D url(img/gamepicker_header_bg.jpg) no-repeat center top; color:#CCC; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:small; }
 h4 { font: medium "Trebuchet MS", Arial, Helvetica, sans-serif; text-transform: capitalize; }
 h2{
@@ -17,6 +41,8 @@ h4{
 }
 a { color:#4064A6; text-decoration:none }
 a:hover { color:#FFF; text-decoration:underline; }
+.squaretype{font-family: 'SquareTypeBRegular', Arial, sans-serif; font-weight: bold;}
+.myriad{font-family:'MyriadProRegular', Arial, sans-serif;}
 .block{display:block;}
 .plain-link, .plain-link:hover { text-decoration:none; }
 .f-11 { font-size:11px }
@@ -137,6 +163,10 @@ table { border-collapse:collapse; }
 	/* [disabled]width:950px; */
 	margin:0 auto 50px auto;
 }
+#errorslogo{font-size:200px; color:#1F1F1F; text-align: center;position:relative}
+.codecolor{color:#1E3052;}
+.codecolor-alt{color:#2754F0}
+#errorslogo .subheading{ top:81%;font-size:14px;color:#FFF; font-family:'SquareTypeBRegular', Arial, sans-serif;}
 #header #logo {}
 #header #topnav { float:right; }
 #header #topnav ul { margin-right:10px; }
@@ -190,8 +220,7 @@ table { border-collapse:collapse; }
 .tbl-list tr:hover, .tbl-list tr.alt:hover { background:#222; }
 .tbl-list tr.alt { background:#181818; border-bottom:1px solid #333; border-top:1px solid #333; padding:4px 2px }
 #content-pannel{background-color:#111;padding:6px; float:right; border:1px solid #333;}
-  
-}
+
 #content-pannel .content-item .content-detail {
 	background-color: #111111;
 	padding: 4px;
@@ -253,6 +282,27 @@ fieldset textarea { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; c
 #modalbase.medBox{width:500px;}
 #modalbase.lgBox{width:750px;}
 #modalbase .title{color:#4064A6; font-size:20px; font-weight:bold;}
+
+.swiff-uploader-box a {
+  display: none !important;
+}
+ 
+/* .hover simulates the flash interactions */
+a.hover {color: red;}
+#photo-status { padding: 10px 15px; width: 420px;border: 1px solid #eee;}
+#photo-status .progress {background: url(img/progress.gif) no-repeat;background-position: +50% 0;margin-right: 0.5em;vertical-align: middle;}
+#photo-status .progress-text {  font-size: 0.9em;font-weight: bold;}
+#photo-list {list-style: none;width: 450px;margin: 0;}
+#photo-list li.validation-error {padding-left: 44px;display: block;clear: left;line-height: 40px;color: #8a1f11;cursor: pointer;border-bottom: 1px solid #fbc2c4;background: #fbe3e4 url(img/failed.png) no-repeat 4px 4px;}
+#photo-list li.file {border-bottom: 1px solid #eee; background: url(img/file.png) no-repeat 4px 4px;overflow: auto;}
+#photo-list li.file.file-uploading {background-image: url(img/uploading.png);background-color: #333;}
+#photo-list li.file.file-success {background-image: url(img/success.png);}
+#photo-list li.file.file-failed {background-image: url(img/failed.png);}
+#photo-list li.file .file-name {font-size: 1.2em;margin-left: 44px;display: block;clear: left;line-height: 40px;height: 40px;font-weight: bold;}
+#photo-list li.file .file-size {font-size: 0.9em;line-height: 18px;float: right;margin-top: 2px;margin-right: 6px;}
+#photo-list li.file .file-info {display: block;margin-left: 44px;font-size: 0.9em;line-height: 20px;}
+#photo-list li.file .file-remove {  clear: right;float: right;line-height: 18px;margin-right: 6px;} 
+
 .draggable{cursor: move;}
 .tbl-list tbody .padded tr { padding: 6px; }
 

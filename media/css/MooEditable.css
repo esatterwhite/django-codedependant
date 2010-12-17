@@ -128,6 +128,7 @@
 .mooeditable-ui-toolbar .p-item .button-icon{ background-position: 0 -426px; } 
 .mooeditable-ui-toolbar .urlsearch-item .button-icon{ background-position: 0 -502px; }
 .mooeditable-ui-toolbar .photosearch-item .button-icon{ background-position: 0 -526px; }
+.mooeditable-ui-toolbar .swfupload-item .button-icon{ background-position: 0 -556px; }
 .mooeditable-iframe{
 	margin: 0;
 	padding: 0;

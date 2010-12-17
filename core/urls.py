@@ -10,6 +10,7 @@ urlpatterns = patterns('codedependant.core.views.base',
 )
 urlpatterns += patterns('codedependant.core.views.ajax',
     url(r'^ajax/insert/code/$','ajax_code_form', name="codedependant_insert_code"),
+    url(r'^ajax/photo/upload/$','photo_upload', name="codedependant_upload_photos")
 )
 
 urlpatterns += patterns('codedependant.core.views.search',

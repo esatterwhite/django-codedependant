@@ -34,12 +34,11 @@ def photo_upload(request):
             ), mimetype="text/javascript")
     else:
         f = PhotoUploadForm()
-        return render_to_response('core/fancyupload.html', {'form':f}, context_instance=RequestContext(request))
+        return render_to_response('core/ajax_photoupload.html', {'form':f}, context_instance=RequestContext(request))
     return HttpResponse(simplejson.dumps({'status':1}), mimetype="text/javascript")
 def ajax_photo_form(request):
     if request.POST:
-        return HttpResponseBadRequest()
-    
+        return HttpResponseBadRequest()    
     if request.is_ajax():
         form = PhotoUploadForm()
         html = render_to_string('core/ajax_photoupload.html', {'form':form}, context_instance=RequestContext(request))
